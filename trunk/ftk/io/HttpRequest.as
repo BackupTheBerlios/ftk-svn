@@ -18,6 +18,10 @@ import ftk.serialization.Serializable;
  * @since      0.10
  * @version    SVN: $Id$
  * @version    Release: @package_version@
+ *
+ * @todo	timeout
+ * @todo	query vars
+ * @todo	GET
  */
  
 class ftk.io.HttpRequest
@@ -130,13 +134,17 @@ class ftk.io.HttpRequest
 	/**
 	 * 
 	 * @param 	msg
+	 * @throws 	IoError
 	 */
 	public function send(requestMessage:Serializable):Void
 	{
 		var lv:LoadVars = new LoadVars();
 		lv.addRequestHeader(getHeaders());
 		lv.data = requestMessage.serialize();
-		lv.sendAndLoad(url, createTarget(requestMessage), method);
+		if (!lv.sendAndLoad(url, createTarget(requestMessage), method))
+		{
+			throw new IoError("Cannot send message! Is the URL ("+url+") and method valid?");
+		}
 	}
 
 	/**
@@ -145,7 +153,7 @@ class ftk.io.HttpRequest
 	 */
 	public function toString():String
 	{
-		return '[HttpRequest]';
+		return '[HttpRequest url="'+url+'" method="'+method+'"]';
 	}
 	
 	/**
@@ -159,13 +167,12 @@ class ftk.io.HttpRequest
 		var target = {};
 		target.onData = function(data)
 		{
+			//~ trace('data: "'+data+'"');
 			if (!data)
 			{
 				self.onFailure(new IoError("the response body was empty"));
 				return;
 			}
-			//~ ObjectUtil.setEnumerable(target, ['__requesqtMsg'], true);
-			//~ ObjectUtil.setEnumerable(target, null, true);
 			try {
 				self.onResponse(this.__requestMsg.createNew(data));
 			} 
@@ -174,7 +181,7 @@ class ftk.io.HttpRequest
 			}
 		};
 		target.__requestMsg = requestMsg;
-		//~ ObjectUtil.setEnumerable(target, ['onData', '__requestMsg'], false);
+		ObjectUtil.setEnumerable(target, ['onData', '__requestMsg'], false);
 		return target;
 	}
 
