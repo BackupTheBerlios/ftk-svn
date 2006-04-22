@@ -3,13 +3,6 @@ import ftk.util.Debug;
 import asunit.framework.*;
 import asunit.textui.TestRunner;
 
-/* - TESTS - */
-import test.ftk.serialization.*;
-import test.ftk.util.StringUtilTest;
-import test.ftk.util.ObjectUtilTest;
-import test.ftk.io.HttpRequestTest;
-/* - TESTS - */
-
 class AllTests extends TestSuite
 {
 	static var allTests:AllTests = null;
@@ -25,10 +18,13 @@ class AllTests extends TestSuite
 	public function AllTests()
 	{
 		super();
-		addTest(new PHPSerializerTest());
-		addTest(new PHPDeserializerTest());
-		addTest(new StringUtilTest());
-		addTest(new ObjectUtilTest());
-		addTest(new HttpRequestTest());
+		addTest(new test.ftk.serialization.PHPSerializerTest());
+		addTest(new test.ftk.serialization.PHPDeserializerTest());
+		addTest(new test.ftk.util.StringUtilTest());
+		addTest(new test.ftk.util.ObjectUtilTest());
+		addTest(new test.ftk.io.HttpRequest.HttpRequestTest());
+		addTest(new test.ftk.io.HttpRequest.UnknownUrlTest());
+		addTest(new test.ftk.io.HttpRequest.SuccessTest());
+		addTest(new test.ftk.io.HttpRequest.GetSuccessTest());
 	}
 }

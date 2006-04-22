@@ -5,46 +5,22 @@ import ftk.io.HttpMessage;
 import ftk.io.HttpRequest;
 import ftk.io.Http;
 import ftk.io.IoError;
-import ftk.test.AsyncTestCase;
 
-class test.ftk.io.HttpRequest.HttpRequestTest extends AsyncTestCase
+class test.ftk.io.HttpRequest.HttpRequestTest extends TestCase
 {
-	private var response:HttpMessage;
+	private var request:HttpRequest;
 	private var error:IoError;
-	private var className:String = 'test.ftk.io.HttpRequestTest';
+	private var className:String = 'test.ftk.io.HttpRequest.HttpRequestTest';
 	
-	public function setUpAsync()
+	public function setUp()
 	{
-		var message:HttpMessage = new HttpMessage();
-		message.setBody('hello world');
-		
-		var request:HttpRequest = new HttpRequest(
-			'HttpRequestEcho.php', 
-			Http.METHOD_POST
-		);
-		request.onResponse = deflectEvent('onResponse');
-		request.onTimeout = request.onFailure = deflectEvent('onFailure');
-		request.send(message);
+		request = new HttpRequest();
+	}	
+	
+	public function testHeader()
+	{
+		request.setHeader('foo', 'bar');
+		assertEquals('' , 'bar', request.getHeader('foo'));
 	}	
 
-	public function test():Void
-	{
-		assertEquals(
-			'"hello world" != "'+response.getBody()+'"',
-			"hello world",
-			response.getBody()
-		);
-	
-	}
-
-	public function onResponse(msg:HttpMessage):Void
-	{
-		response = msg;
-	}
-
-	public function onFailure(e:IoError):Void
-	{
-		fail(e.getMessage());
-	}
-	
 }
