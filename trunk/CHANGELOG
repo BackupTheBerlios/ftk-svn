@@ -1,3 +1,4 @@
 
 2006-04-22 elias
- - added ftk.test.AsyncTestCase
+ - added ftk.test.AsyncTestCase for use with asunit
+ - added/restructured/refactored tests for HttpRequest

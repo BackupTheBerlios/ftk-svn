@@ -4,22 +4,24 @@ import ftk.io.HttpMessage;
 import ftk.io.HttpRequest;
 import ftk.io.Http;
 import ftk.io.IoError;
+import ftk.serialization.PHPSerializer;
+import ftk.serialization.PHPDeserializer;
 import ftk.test.AsyncTestCase;
 
-class test.ftk.io.HttpRequest.GetSuccessTest extends AsyncTestCase
+class test.ftk.io.HttpRequest.PhpSerializedTest extends AsyncTestCase
 {
 	private var response:HttpMessage;
-	private var error:IoError;
-	private var className:String = 'test.ftk.io.HttpRequest.GetSuccessTest';
+	private var className:String = 'test.ftk.io.HttpRequest.PhpSerializedTest';
 	
 	public function setUpAsync()
 	{
-		var message:HttpMessage = new HttpMessage();
+		var message:HttpMessage = new HttpMessage(new PHPSerializer(), new PHPDeserializer());
+		//~ var message:HttpMessage = new HttpMessage();
 		message.setBody('hello world');
 		
 		var request:HttpRequest = new HttpRequest(
-			'echo-get.php', 
-			Http.METHOD_GET
+			'echo-post-phpserialized.php', 
+			Http.METHOD_POST
 		);
 		request.onResponse = deflectEvent('onResponse');
 		request.onTimeout = request.onFailure = deflectEvent('onFailure');

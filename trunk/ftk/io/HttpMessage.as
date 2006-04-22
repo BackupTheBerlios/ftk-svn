@@ -50,7 +50,8 @@ class ftk.io.HttpMessage implements Serializable
 
 	/**
 	 * 
-	 * @param 	obj  	 */
+	 * @param 	obj  	 
+	 */
 	public function setBody(obj:Object):Void
 	{
 		body = obj;

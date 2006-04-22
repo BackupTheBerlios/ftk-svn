@@ -26,5 +26,6 @@ class AllTests extends TestSuite
 		addTest(new test.ftk.io.HttpRequest.UnknownUrlTest());
 		addTest(new test.ftk.io.HttpRequest.SuccessTest());
 		addTest(new test.ftk.io.HttpRequest.GetSuccessTest());
+		addTest(new test.ftk.io.HttpRequest.PhpSerializedTest());
 	}
 }
